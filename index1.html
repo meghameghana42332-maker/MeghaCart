@@ -1,0 +1,841 @@
+Yes. We can build the website in **React + Vite**. For your project, I suggest using **ShopSphere** as the project name.
+
+### Project structure
+
+```text
+shopsphere/
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── ProductCard.jsx
+│   │   └── Footer.jsx
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Products.jsx
+│   │   ├── ProductDetails.jsx
+│   │   ├── Cart.jsx
+│   │   ├── Login.jsx
+│   │   └── Register.jsx
+│   ├── data/
+│   │   └── products.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── styles.css
+├── public/
+├── package.json
+└── vite.config.js
+```
+
+### 1. Create the React + Vite project
+
+Open **Command Prompt / VS Code Terminal**:
+
+```bash
+npm create vite@latest shopsphere -- --template react
+cd shopsphere
+npm install
+npm run dev
+```
+
+Then open the localhost URL shown in the terminal.
+
+### 2. Install React Router
+
+```bash
+npm install react-router-dom
+```
+
+### 3. `src/App.jsx`
+
+```jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+import "./styles.css";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+
+### 4. `src/main.jsx`
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+### 5. `src/data/products.js`
+
+You can start with these products and later expand to **60 products — 10 per category**.
+
+```jsx
+const products = [
+  {
+    id: 1,
+    name: "Men's Casual Shirt",
+    category: "Men",
+    price: 799,
+    discount: 20,
+    image:
+      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600",
+  },
+  {
+    id: 2,
+    name: "Men's Jeans",
+    category: "Men",
+    price: 1299,
+    discount: 15,
+    image:
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=600",
+  },
+  {
+    id: 3,
+    name: "Women's Dress",
+    category: "Women",
+    price: 1499,
+    discount: 25,
+    image:
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600",
+  },
+  {
+    id: 4,
+    name: "Women's Innerwear",
+    category: "Women",
+    price: 499,
+    discount: 10,
+    image:
+      "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=600",
+  },
+  {
+    id: 5,
+    name: "Kids T-Shirt",
+    category: "Kids",
+    price: 399,
+    discount: 15,
+    image:
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600",
+  },
+  {
+    id: 6,
+    name: "Kids Shoes",
+    category: "Kids",
+    price: 699,
+    discount: 20,
+    image:
+      "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=600",
+  },
+  {
+    id: 7,
+    name: "Senior Comfort Shirt",
+    category: "Senior Citizens",
+    price: 699,
+    discount: 10,
+    image:
+      "https://images.unsplash.com/photo-1583743814966-8936f37f4678?w=600",
+  },
+  {
+    id: 8,
+    name: "Running Shoes",
+    category: "Shoes",
+    price: 1799,
+    discount: 30,
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+  },
+  {
+    id: 9,
+    name: "Rice 5 KG",
+    category: "Groceries",
+    price: 499,
+    discount: 5,
+    image:
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600",
+  },
+  {
+    id: 10,
+    name: "Fresh Vegetables",
+    category: "Groceries",
+    price: 299,
+    discount: 10,
+    image:
+      "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600",
+  },
+];
+
+export default products;
+```
+
+### 6. `src/components/Navbar.jsx`
+
+```jsx
+import { Link } from "react-router-dom";
+
+function Navbar() {
+  return (
+    <header className="navbar">
+      <div className="logo">
+        <Link to="/">ShopSphere</Link>
+      </div>
+
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/products">Shop</Link>
+        <Link to="/products?category=Men">Men</Link>
+        <Link to="/products?category=Women">Women</Link>
+        <Link to="/products?category=Kids">Kids</Link>
+        <Link to="/products?category=Shoes">Shoes</Link>
+        <Link to="/products?category=Groceries">Groceries</Link>
+      </nav>
+
+      <div className="nav-actions">
+        <Link to="/login">Login</Link>
+        <Link to="/cart">🛒 Cart</Link>
+      </div>
+    </header>
+  );
+}
+
+export default Navbar;
+```
+
+### 7. `src/components/ProductCard.jsx`
+
+```jsx
+import { Link } from "react-router-dom";
+
+function ProductCard({ product }) {
+  const finalPrice =
+    product.price - (product.price * product.discount) / 100;
+
+  return (
+    <div className="product-card">
+      <img src={product.image} alt={product.name} />
+
+      <div className="product-info">
+        <span className="category">{product.category}</span>
+
+        <h3>{product.name}</h3>
+
+        <div className="price">
+          <strong>₹{finalPrice}</strong>
+          <del>₹{product.price}</del>
+        </div>
+
+        <span className="discount">
+          {product.discount}% OFF
+        </span>
+
+        <Link
+          className="view-btn"
+          to={`/product/${product.id}`}
+        >
+          View Product
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default ProductCard;
+```
+
+### 8. `src/pages/Home.jsx`
+
+```jsx
+import { Link } from "react-router-dom";
+import products from "../data/products";
+import ProductCard from "../components/ProductCard";
+
+function Home() {
+  return (
+    <>
+      <section className="hero">
+        <div>
+          <p>WELCOME TO SHOPSPHERE</p>
+
+          <h1>
+            Everything You Need,
+            <br />
+            All in One Place
+          </h1>
+
+          <p>
+            Shop fashion, footwear and groceries
+            at amazing prices.
+          </p>
+
+          <Link to="/products" className="shop-btn">
+            Shop Now
+          </Link>
+        </div>
+      </section>
+
+      <section className="categories">
+        <h2>Shop By Category</h2>
+
+        <div className="category-grid">
+          {[
+            "Men",
+            "Women",
+            "Kids",
+            "Senior Citizens",
+            "Shoes",
+            "Groceries",
+          ].map((category) => (
+            <Link
+              key={category}
+              to={`/products?category=${category}`}
+              className="category-box"
+            >
+              {category}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="products-section">
+        <h2>Featured Products</h2>
+
+        <div className="product-grid">
+          {products.slice(0, 8).map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default Home;
+```
+
+### 9. `src/pages/Products.jsx`
+
+```jsx
+import { useSearchParams } from "react-router-dom";
+import products from "../data/products";
+import ProductCard from "../components/ProductCard";
+
+function Products() {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
+  const filteredProducts = category
+    ? products.filter((p) => p.category === category)
+    : products;
+
+  return (
+    <section className="products-section">
+      <h1>{category || "All Products"}</h1>
+
+      <div className="product-grid">
+        {filteredProducts.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default Products;
+```
+
+### 10. `src/pages/ProductDetails.jsx`
+
+```jsx
+import { useParams } from "react-router-dom";
+import products from "../data/products";
+
+function ProductDetails() {
+  const { id } = useParams();
+
+  const product = products.find(
+    (item) => item.id === Number(id)
+  );
+
+  if (!product) {
+    return <h2>Product not found</h2>;
+  }
+
+  const finalPrice =
+    product.price -
+    (product.price * product.discount) / 100;
+
+  return (
+    <section className="product-details">
+      <img src={product.image} alt={product.name} />
+
+      <div>
+        <span>{product.category}</span>
+
+        <h1>{product.name}</h1>
+
+        <h2>₹{finalPrice}</h2>
+
+        <del>₹{product.price}</del>
+
+        <p>{product.discount}% OFF</p>
+
+        <button>Add to Cart</button>
+
+        <button className="buy-btn">
+          Buy Now
+        </button>
+      </div>
+    </section>
+  );
+}
+
+export default ProductDetails;
+```
+
+### 11. `src/pages/Cart.jsx`
+
+```jsx
+function Cart() {
+  return (
+    <section className="cart">
+      <h1>Shopping Cart</h1>
+
+      <div className="empty-cart">
+        🛒
+        <h2>Your cart is empty</h2>
+        <p>Add products to your cart to continue shopping.</p>
+      </div>
+    </section>
+  );
+}
+
+export default Cart;
+```
+
+### 12. `src/pages/Login.jsx`
+
+```jsx
+import { Link } from "react-router-dom";
+
+function Login() {
+  return (
+    <section className="auth">
+      <div className="auth-box">
+        <h1>Login</h1>
+
+        <input
+          type="email"
+          placeholder="Email Address"
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+        />
+
+        <button>Login</button>
+
+        <p>
+          Don't have an account?{" "}
+          <Link to="/register">Register</Link>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+export default Login;
+```
+
+### 13. `src/pages/Register.jsx`
+
+```jsx
+function Register() {
+  return (
+    <section className="auth">
+      <div className="auth-box">
+        <h1>Create Account</h1>
+
+        <input
+          type="text"
+          placeholder="Full Name"
+        />
+
+        <input
+          type="email"
+          placeholder="Email Address"
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+        />
+
+        <input
+          type="password"
+          placeholder="Confirm Password"
+        />
+
+        <button>Register</button>
+      </div>
+    </section>
+  );
+}
+
+export default Register;
+```
+
+### 14. `src/components/Footer.jsx`
+
+```jsx
+function Footer() {
+  return (
+    <footer>
+      <h2>ShopSphere</h2>
+
+      <p>
+        Your trusted online shopping destination.
+      </p>
+
+      <p>
+        © 2026 ShopSphere | All Rights Reserved
+      </p>
+    </footer>
+  );
+}
+
+export default Footer;
+```
+
+### 15. `src/styles.css`
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo a {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar nav a:hover {
+  color: #2874f0;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.hero {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  padding: 60px 8%;
+  background: linear-gradient(
+    120deg,
+    #e3f2fd,
+    #fff
+  );
+}
+
+.hero h1 {
+  font-size: 55px;
+  margin: 15px 0;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.shop-btn,
+.view-btn,
+button {
+  display: inline-block;
+  border: none;
+  padding: 13px 25px;
+  margin-top: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  background: #2874f0;
+  color: white;
+}
+
+.categories,
+.products-section {
+  padding: 50px 7%;
+}
+
+.categories h2,
+.products-section h1,
+.products-section h2 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+}
+
+.category-box {
+  background: white;
+  padding: 30px 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  font-weight: bold;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px rgba(0,0,0,.08);
+  transition: .3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 18px;
+}
+
+.product-info h3 {
+  margin: 10px 0;
+}
+
+.category {
+  font-size: 13px;
+  color: #777;
+}
+
+.price {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.price strong {
+  font-size: 20px;
+}
+
+.price del {
+  color: #888;
+}
+
+.discount {
+  display: block;
+  margin-top: 8px;
+  color: green;
+  font-weight: bold;
+}
+
+.product-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding: 70px 10%;
+  background: white;
+}
+
+.product-details img {
+  width: 100%;
+  max-height: 550px;
+  object-fit: cover;
+}
+
+.product-details h1 {
+  font-size: 40px;
+  margin: 20px 0;
+}
+
+.product-details h2 {
+  font-size: 30px;
+}
+
+.buy-btn {
+  margin-left: 10px;
+}
+
+.auth {
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-box {
+  width: 400px;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.1);
+}
+
+.auth-box h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.auth-box button {
+  width: 100%;
+}
+
+.cart {
+  padding: 80px 10%;
+  min-height: 600px;
+  text-align: center;
+}
+
+.empty-cart {
+  margin-top: 70px;
+}
+
+.empty-cart h2 {
+  margin: 20px;
+}
+
+footer {
+  background: #172337;
+  color: white;
+  padding: 40px 7%;
+  text-align: center;
+}
+
+footer p {
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .navbar nav {
+    display: none;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .product-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 35px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-actions {
+    font-size: 14px;
+  }
+}
+```
